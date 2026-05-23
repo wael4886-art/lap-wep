@@ -1,0 +1,24 @@
+{
+  "name": "lap-wep",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wael4886-art/lap-wep.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/wael4886-art/lap-wep/issues"
+  },
+  "homepage": "https://github.com/wael4886-art/lap-wep#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
