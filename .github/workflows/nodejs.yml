@@ -1,3 +1,47 @@
+# .github/workflows/nodejs.yml
+
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  deploy-to-staging:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate deployment to Staging
+        run: |
+          echo "Deploying application to Staging environment..."
+          echo "Application version: $(git rev-parse --short HEAD)"
+          echo "Deployment to Staging successful!"
+
   deploy-to-production:
     needs: deploy-to-staging
     runs-on: ubuntu-latest
@@ -14,13 +58,9 @@
 
       - name: Simulated health check
         run: |
-          # SIMULATION ONLY: In a real CD pipeline, this would call your application's /health endpoint
-          # Example real command: curl -f https://yourapp.com/health || exit 1
-
           echo "Running health checks..."
           echo "Health endpoint: https://yourapp.com/health (simulated)"
 
-          # Simulate a random health check result (50% pass, 50% fail)
           if (( RANDOM % 2 == 0 )); then
             echo "Health check passed!"
             echo "Deployment to Production successful!"
