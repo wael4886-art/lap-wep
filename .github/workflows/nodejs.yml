@@ -1,5 +1,5 @@
 # .github/workflows/nodejs.yml
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -21,8 +21,25 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run tests
         run: npm test
-        #s
+
+  deploy-to-staging:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate deployment to Staging
+        run: |
+          echo "Deploying application to Staging environment..."
+          echo "Application version: $(git rev-parse --short HEAD)"
+          echo "Deployment to Staging successful!"
+          # In a real scenario, this would involve commands to deploy to a cloud service
+          # e.g., aws s3 sync build/ s3://staging-bucket
+          # or kubectl apply -f k8s-staging.yaml
